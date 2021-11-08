@@ -211,3 +211,4 @@ calculate_dx <- function(dx, size, prcnt_finer) {
 
 
 The <span style="color:purple">*Final_Poster*</span> folder contains the poster presented at the [AGU  Fall 2021 Meeting](https://https://www.agu.org/Fall-Meeting) inlcuding the pptx file, pdf version, and jpeg file (shown below).
+

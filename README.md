@@ -1,6 +1,6 @@
 Scott Creek CZU Fire AGU Fall 2021 Poster (WY2022)
 ================
-08 November, 2021
+15 November, 2021
 
 -   [Introduction](#introduction)
 -   [Readme File Purpose](#readme-file-purpose)
@@ -52,19 +52,20 @@ The <span style="color:purple">*Data*</span> folder contains the
 datasets used in the poster.
 
 1.  The <span
-    style="color:purple">*Scott\_Creek\_Pebble\_20210XXX.csv*</span>
+    style="color:purple">*Scott\_Creek\_Pebble\_20211115.csv*</span>
     datafile consists of pebble counts at 23 transects accrost the
     watershed (6 eFishing sites with 3 transects each, and 5 additional
     pebble count only transects) which were repeated twice (Autumn 2020
-    & Summer 2021). AC and MA entered the data which needs to be QC’ed. 
+    & Summer 2021). AC and MA entered the data. There was some sort of
+    typo which hopefully is now fixed.
 
 <br>
 
 **Plot Theme Notes**
 
--   The colors “\#011a27” (dark blue) and “\#e6df44” (yellow) are being
-    used to designate data collected before and after the fire,
-    respectively.
+-   The colors “\#011a27” (dark blue) and “\#e6df44” (yellow) were used
+    in a preivious poster to designate data collected before and after
+    the fire, respectively.
 
 <br>
 
@@ -102,7 +103,7 @@ datasets used in the poster.
     CZU fire google drive [pebble count
     folder](https://drive.google.com/drive/u/1/folders/1MwYFVTyhN1_3NMqhlwIAu8DBYOm8KzSo).
 
-**Script**: 3\_Pebble\_Count\_Data.R
+**Script**: 1\_Pebble\_Count\_Data.R
 
 **Dataset name**: pc
 

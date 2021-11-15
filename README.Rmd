@@ -32,13 +32,13 @@ This readme file consists of an overview of the datasets, goals, and data visual
 
 The <span style="color:purple">*Data*</span> folder contains the datasets used in the poster.
 
-1. The <span style="color:purple">*Scott_Creek_Pebble_20210XXX.csv*</span> datafile consists of pebble counts at 23 transects accrost the watershed (6 eFishing sites with 3 transects each, and 5 additional pebble count only transects) which were repeated twice (Autumn 2020 & Summer 2021). AC and MA entered the data which needs to be QC'ed. 
+1. The <span style="color:purple">*Scott_Creek_Pebble_20211115.csv*</span> datafile consists of pebble counts at 23 transects accrost the watershed (6 eFishing sites with 3 transects each, and 5 additional pebble count only transects) which were repeated twice (Autumn 2020 & Summer 2021). AC and MA entered the data. There was some sort of typo which hopefully is now fixed. 
 
 <br>
 
 **Plot Theme Notes** 
 
-* The colors "#011a27" (dark blue) and "#e6df44" (yellow) are being used to designate data collected before and after the fire, respectively.
+* The colors "#011a27" (dark blue) and "#e6df44" (yellow) were used in a preivious poster to designate data collected before and after the fire, respectively.
 
 ```{r Manual colorway for before and after, echo = FALSE}
 # scale_fill_manual(values = c("#011a27", "#e6df44"), labels = c("Before", "After")) 
@@ -80,7 +80,7 @@ library(patchwork)
 * There are some example papers vizualizing pebble count data in the CZU fire google drive [pebble count folder](https://drive.google.com/drive/u/1/folders/1MwYFVTyhN1_3NMqhlwIAu8DBYOm8KzSo).
 
 
-**Script**: 3_Pebble_Count_Data.R
+**Script**: 1_Pebble_Count_Data.R
 
 **Dataset name**: pc
 

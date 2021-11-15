@@ -63,9 +63,10 @@ datasets used in the poster.
 
 **Plot Theme Notes**
 
--   The colors “\#011a27” (dark blue) and “\#e6df44” (yellow) were used
-    in a preivious poster to designate data collected before and after
-    the fire, respectively.
+-   The colors “\#33658a” (blue) and “\#f26419” (orange) are used to
+    designate data collected before and after the fire, respectively.
+    \#f6ae2d (yellow) represents the first flush (Round 2) data. Colors
+    are part of this [iColorpalette](https:\iColorpalette.com\p\222275).
 
 <br>
 

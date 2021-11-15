@@ -15,7 +15,7 @@
 ##           after the “first flush” at 1.A each site and 1.B longitudinally 
 ##           along the mainstem and Big Creek.
 ##
-## Note: See https://github.com/RMBond/ScottCreek-WY21_CZUFire_Poster for project information.
+## Note: See https://github.com/RMBond/ScottCreek-WY22_CZUFire_Poster for project information.
 ##
 ###############################################
 
@@ -29,7 +29,7 @@ library(patchwork)
 #1. Read in the data ####
 
 #Input file contains 3 rounds of data (round 3 is after all precipitation had stopped whareas round 2 was in the middle of the Winter a.k.a. first flush).
-pc.dat <- read.csv("Data/Scott_Creek_Pebble_20210802.csv", sep = ",", header = T) #1104 obs of 7 var. 
+pc.dat <- read.csv("Data/Scott_Creek_Pebble_20211115.csv", sep = ",", header = T) #1104 obs of 7 var. 
 
 #2. Do some data wrangling ####
 
@@ -96,7 +96,7 @@ bc + um + lc +
   theme(legend.position = 'bottom') 
 # plot_annotation(caption = 'If the blue line starts above the tan line, it means the surface sediment became finer after the first flush.')
 
-# ggsave("Figures/PC_20210406_5x4.jpg", width = 5, height = 4, units = "in", dpi = 650, device = "jpg")
+# ggsave("Figures/PC_20211115_5x4.jpg", width = 5, height = 4, units = "in", dpi = 650, device = "jpg")
 
 
 #4. Percent fines (<6mm) along the mainstem by station number (pc2)####
@@ -112,7 +112,7 @@ a <- ggplot(pc2.mainstem.fines, aes(x = Long_Station, y = Percent_finer, color =
   geom_point() +
   scale_y_continuous(name = "Percent surface fines", limits = c(0,1.0), expand = c(0,0)) +
   scale_x_continuous(name = "Station Number", limits = c(1,7), breaks = seq(0,7,1)) +
-  scale_color_manual(values = c("#a6611a", "blue","#018571"), labels = c("Before", "Middle","After")) +
+  scale_color_manual(values = c("#33658a", "#f6ae2d","#f26419"), labels = c("Before Winter 2021", "First Flush","After Winter 2021")) +
   theme_classic() +
   geom_hline(yintercept = 0, lty = 2) +
   labs(title = "A") +
@@ -203,7 +203,7 @@ b <- ggplot(pc2.mainstem, aes(x = Long_Station, y = fines_per_change)) +
 #Putting plots together
 a / b
 
-# ggsave("Figures/PC_percent_fines_mainstem_20210406_6x6.jpg", width = 6, height = 6, units = "in", dpi = 650, device = "jpg")
+# ggsave("Figures/PC_percent_fines_mainstem_20211115_6x6.jpg", width = 6, height = 6, units = "in", dpi = 650, device = "jpg")
 
 
 #6. Boxplot of percent surface fines (pc3) ####
@@ -224,8 +224,8 @@ pc3.fines.mainstem <- pc %>%
   filter(Long_Station < 8)
 
 plot.pc3.fines.mainstem <- ggplot(pc3.fines.mainstem, aes(x = Round, y = Percent_finer)) +
-  geom_boxplot(fill = c("#011a27", "blue", "#e6df44")) +
-  scale_x_discrete(name = "", limits = c("1","2","3"), labels = c("Before", "Mid", "After")) +
+  geom_boxplot(fill = c("#33658a", "#f6ae2d","#f26419")) +
+  scale_x_discrete(name = "", limits = c("1","2","3"), labels = c("Before Winter 2021", "First Flush","After Winter 2021")) +
   scale_y_continuous(name = "Percent surface fines (<6mm)", limits = c(0,1),
                      expand = c(0,0)) +
   theme_classic() +
@@ -240,8 +240,8 @@ pc3.fines.bc <- pc %>%
   filter(Long_Station > 7 & Long_Station < 11)
 
 plot.pc3.fines.bc <- ggplot(pc3.fines.bc, aes(x = Round, y = Percent_finer)) +
-  geom_boxplot(fill = c("#011a27", "blue", "#e6df44")) +
-  scale_x_discrete(name = "", limits = c("1","2","3"), labels = c("Before", "Mid", "After")) +
+  geom_boxplot(fill = c("#33658a", "#f6ae2d","#f26419")) +
+  scale_x_discrete(name = "", limits = c("1","2","3"), labels = c("Before Winter 2021", "First Flush","After Winter 2021")) +
   scale_y_continuous(name = "Percent surface fines (<6mm)", limits = c(0,1),
                      expand = c(0,0)) +
   theme_classic() +
@@ -257,8 +257,8 @@ pc3.fines.lc <- pc %>%
   filter(Long_Station == 11)
 
 plot.pc3.fines.lc <- ggplot(pc3.fines.lc, aes(x = Round, y = Percent_finer)) +
-  geom_boxplot(fill = c("#011a27", "blue", "#e6df44")) +
-  scale_x_discrete(name = "", limits = c("1","2","3"), labels = c("Before", "Mid", "After")) +
+  geom_boxplot(fill = c("#33658a", "#f6ae2d","#f26419")) +
+  scale_x_discrete(name = "", limits = c("1","2","3"), labels = c("Before Winter 2021", "First Flush","After Winter 2021")) +
   scale_y_continuous(name = "Percent surface fines (<6mm)", limits = c(0,1),
                      expand = c(0,0)) +
   theme_classic() +
@@ -275,7 +275,7 @@ plot.pc3.fines.mainstem +  plot.pc3.fines.bc +  plot.pc3.fines.lc # Landscape la
 
 plot.pc3.fines.mainstem /  plot.pc3.fines.bc /  plot.pc3.fines.lc # Portrait layout
 
-# ggsave("Figures/PC_percent_fines_boxplot_20210413_3x6.jpg", width = 3, height = 6, units = "in", dpi = 650, device = "jpg")
+# ggsave("Figures/PC_percent_fines_boxplot_20211115_3x6.jpg", width = 3, height = 6, units = "in", dpi = 650, device = "jpg")
 
 
 #Variation in Percent Fines for each eFishing Site starting with pc3.fines
@@ -292,7 +292,7 @@ ggplot(pc3.efishing, aes(x = Site, y = Percent_finer, color = Round)) +
   geom_jitter(width = 0.1) +
   scale_y_continuous(name = "Percent surface fines (<6mm)", limits = c(0,1),
                      expand = c(0,0)) +
-  scale_color_manual(values = c("#a6611a", "blue","#018571"), labels = c("Before", "Mid","After")) +
+  scale_color_manual(values = c("#33658a", "#f6ae2d","#f26419"), labels = c("Before Winter 2021", "First Flush","After Winter 2021")) +
   theme_classic() +
   theme(legend.position = "top",
         legend.title = element_blank())

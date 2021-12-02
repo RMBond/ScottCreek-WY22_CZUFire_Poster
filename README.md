@@ -1,11 +1,12 @@
 Scott Creek CZU Fire AGU Fall 2021 Poster (WY2022)
 ================
-15 November, 2021
+02 December, 2021
 
 -   [Introduction](#introduction)
 -   [Readme File Purpose](#readme-file-purpose)
 -   [Workflow Steps](#workflow-steps)
 -   [Pebble Counts](#pebble-counts)
+-   [eFishing Population Estimates](#efishing-population-estimates)
 -   [Final Poster Output](#final-poster-output)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -59,6 +60,21 @@ datasets used in the poster.
     & Summer 2021). AC and MA entered the data. There was some sort of
     typo which hopefully is now fixed.
 
+2.  The <span style="color:purple">*Efishing\_2021XXXX.csv*</span>
+    datafile contains 3/4 pass depletion eFsihing at the Lower mainstem,
+    Upper mainstem, and Big Creek “Sue” sites. Historic data were
+    queried by JK on 5 April 2021 and WY 2021 were provided by K.
+    Kobayashi. Count of total number of individuals and pass were
+    generated using pivot tables. Note: eFishing sampling events were
+    limmited to August - November periods (Additional June/July sampling
+    events exists).
+
+3.  The <span
+    style="color:purple">*Efishing\_totalpop\_2021XXXX.csv*</span>
+    datafile is the FSA package output (population estimate, SD, and
+    95%CI) for each site. Note the FSA code below is repeated for 3 pass
+    and 2 cases of 4 pass sampling.
+
 <br>
 
 **Plot Theme Notes**
@@ -80,6 +96,12 @@ datasets used in the poster.
 2.  Generate pebble count summaries (% Fines, D50).
 
 3.  Plot summaries (percent fines boxplots).
+
+**eFishing Dataset**
+
+1.  Generate population estimates and CI using FSA package.
+
+2.  Plot population estimates over time.
 
 <br>
 
@@ -247,6 +269,42 @@ calculate_dx <- function(dx, size, prcnt_finer) {
 #     d50 = calculate_dx(50, size = pc$Size_class_mm, prcnt_finer = pc$Percent_finer),
 #     d84 = calculate_dx(84, size = pc$Size_class_mm, prcnt_finer = pc$Percent_finer))
 ```
+
+<br>
+
+## eFishing Population Estimates
+
+**Goals**:
+
+1.  Generate population estimates and CI using FSA package (Simple
+    Fisheries Stock Assessment Methods package).
+
+2.  Plot population estimates over time.
+
+**Script**: 4\_eFishing\_Data.R
+
+**Dataset name**: fish
+
+**Variable descriptions**:
+
+-   ID = unique ID (for loop function)
+
+-   Date = Sample date (format = YYYY-MM-DD).
+
+-   Site = Site name
+
+-   Species = Coho or Steelhead
+
+-   P1 = Pass 1 count
+
+-   P2 = Pass 2 count
+
+-   P3 = Pass 3 count
+
+-   P4 = Pass 4 count (special case)
+
+-   fire = True for 2020 onwards, False for all years before the fire
+    (used for color coding plots).
 
 <br>
 

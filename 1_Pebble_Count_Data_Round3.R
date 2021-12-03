@@ -43,6 +43,9 @@ pc <- pc.dat %>% #Start formatting columns into r "tidy" structure.
   arrange(Size_class_mm) %>% #makes sure data goes from smallest to larges pebble sizes.
   mutate(Percent_finer = cumsum(Category_total)/sum(Category_total)) #create column for percent finer than. 
 
+pc <- pc %>% 
+  filter(Round != 2)
+
 #Check the data structure
 
 str(pc)
@@ -111,14 +114,29 @@ a <- ggplot(pc2.mainstem.fines, aes(x = Long_Station, y = Percent_finer, color =
   geom_line() +
   geom_point() +
   scale_y_continuous(name = "Percent surface fines", limits = c(0,1.0), expand = c(0,0)) +
-  scale_x_continuous(name = "Station Number", limits = c(1,7), breaks = seq(0,7,1)) +
-  scale_color_manual(values = c("#33658a", "#f6ae2d","#f26419"), labels = c("Before Winter 2021", "First Flush","After Winter 2021")) +
+  scale_x_continuous(name = "Station Number", limits = c(0.5,7.5), breaks = seq(1,7,1)) +
+  # scale_color_manual(values = c("#33658a", "#f6ae2d","#f26419"), labels = c("Before Winter 2021", "First Flush","After Winter 2021")) + #use this if you are showing rounds 1 through 3.
+  scale_color_manual(values = c("#33658a", "#f26419"), labels = c("Before Winter 2021","After Winter 2021")) + #Round 1 vs 3 only
   theme_classic() +
   geom_hline(yintercept = 0, lty = 2) +
-  labs(title = "A") +
   # subtitle = "Flow is from right (upstream) to left (downstream)") +
   # caption = "The meainstem between Big and Little Creeks (Station 3) and the upper watershed \n (Stations 6 and 7) had the biggest increases in fine sediment.")
+  # annotate("text", x = 1, y = 0.95, label = "A", size = 5) +
   theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        legend.position = "top",
+        legend.title = element_blank())
+
+#Bar chart
+a2 <- ggplot(pc2.mainstem.fines, aes(x = Long_Station, y = Percent_finer, fill = Round)) +
+  geom_col(aes(x = Long_Station, y = Percent_finer, fill = Round), position = "dodge") +
+  scale_y_continuous(name = "Percent surface fines", limits = c(0,1.0), expand = c(0,0)) +
+  scale_x_continuous(name = "Station Number", limits = c(0.5,7.5), breaks = seq(1,7,1)) +
+  # scale_color_manual(values = c("#33658a", "#f6ae2d","#f26419"), labels = c("Before Winter 2021", "First Flush","After Winter 2021")) + #use this if you are showing rounds 1 through 3.
+  scale_fill_manual(values = c("#33658a", "#f6ae2d"), labels = c("Before Winter 2021","After Winter 2021")) + #Round 1 vs 3 only
+  theme_classic() +
+  geom_hline(yintercept = 0, lty = 2) +
+   theme(axis.title.x = element_blank(),
         axis.text.x = element_blank(),
         legend.position = "top",
         legend.title = element_blank())
@@ -185,25 +203,38 @@ stattest <- pc2 %>%
 
 #Mainstem plot
 
-b <- ggplot(pc2.mainstem, aes(x = Long_Station, y = fines_per_change)) +
-  geom_line() +
-  geom_point() +
-  scale_y_continuous(name = "Change in percent fines", limits = c(-0.2,0.45), breaks = seq(-0.2,0.45,.1), expand = c(0,0)) +
-  scale_x_continuous(name = "Station Number", limits = c(1,7), breaks = seq(0,7,1)) +
+#continuous line:
+# b <- ggplot(pc2.mainstem, aes(x = Long_Station, y = fines_per_change)) +
+#   # geom_line() +
+#   geom_point() +
+#   scale_y_continuous(name = "Change in percent fines", limits = c(-0.2,0.45), breaks = seq(-0.2,0.45,.1), expand = c(0,0)) +
+#   scale_x_continuous(name = "Station Number", limits = c(1,7), breaks = seq(0,7,1)) +
+#   theme_classic() +
+#   geom_hline(yintercept = 0, lty = 2) +
+#   annotate("text", x = 1, y = 0.4, label = "B", size = 5)
+#   # geom_segment(x = 1, y = -0.13, xend = 1, yend = 0.08, lty = 3) + #variation in Station 1
+#   # geom_segment(x = 6, y = 0.12, xend = 6, yend = 0.25, lty = 3) + #variation in Station 6
+#   # geom_segment(x = 7, y = -0.11, xend = 7, yend = 0.3857, lty = 3) + #variation in Station 7
+# # labs(title = "Change in percent fines (<6mm) along the mainstem",
+# #      subtitle = "Flow is from right (Upstream) to left (Downstream)",
+# #      caption = "The meainstem between Big and Little Creeks (Station 3) and the upper watershed \n (Stations 6 and 7) had the biggest increases in fine sediment. \n Dotted vertical lines are ranges at the eFishing sites.")
+
+#Bar chart insted of line:
+c <- ggplot(pc2.mainstem, aes(x = Long_Station, y = fines_per_change)) +
+  geom_col(aes(x = Long_Station, y = fines_per_change), width = 0.5) +
+  scale_y_continuous(name = "Change in percent fines", limits = c(-0.25,1), breaks = seq(-0.25,1,.25), expand = c(0,0)) +
+  scale_x_continuous(name = "Station Number", limits = c(0.5,7.5), breaks = seq(1,7,1)) +
   theme_classic() +
-  geom_hline(yintercept = 0, lty = 2) +
-  # geom_segment(x = 1, y = -0.13, xend = 1, yend = 0.08, lty = 3) + #variation in Station 1
-  # geom_segment(x = 6, y = 0.12, xend = 6, yend = 0.25, lty = 3) + #variation in Station 6
-  # geom_segment(x = 7, y = -0.11, xend = 7, yend = 0.3857, lty = 3) + #variation in Station 7
-  labs(title = "B")
-# labs(title = "Change in percent fines (<6mm) along the mainstem",
-#      subtitle = "Flow is from right (Upstream) to left (Downstream)",
-#      caption = "The meainstem between Big and Little Creeks (Station 3) and the upper watershed \n (Stations 6 and 7) had the biggest increases in fine sediment. \n Dotted vertical lines are ranges at the eFishing sites.")
+  geom_hline(yintercept = 0, lty = 2) 
+  # annotate("text", x = 1, y = 0.4, label = "B", size = 5)
+
+
 
 #Putting plots together
-a / b
+# a / b #line plots
+a2 / c
 
-# ggsave("Figures/PC_percent_fines_mainstem_20211115_6x6.jpg", width = 6, height = 6, units = "in", dpi = 650, device = "jpg")
+# ggsave("Figures/PC_percent_fines_mainstem_20211203_6x6.jpg", width = 6, height = 6, units = "in", dpi = 650, device = "jpg")
 
 
 #6. Boxplot of percent surface fines (pc3) ####

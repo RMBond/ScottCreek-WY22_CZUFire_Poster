@@ -17,11 +17,10 @@ library(lubridate)
 library(FSA) #install.packages("FSA") # this will take a while.
 library(patchwork)
 
-#1. Read in the data ####
+#1. Read in NEW (Autumn WY21) data ####
+#Notes: is only has the three sites (reported by Katie Kobayashi).
 
-# fish.dat <- read.csv("Data/eFishing_20210407.csv", sep = ",", header = T) #23 obs of 8 var. BY SPECIES
-
-fish.dat <- read.csv("Data/eFishing_20210414.csv", sep = ",", header = T) #15 obs of 7 var. TOTAL SALMONIDS
+fish.dat <- read.csv("Data/WY21_Autumn_fish_20211206.csv", sep = ",", header = T) #3 obs of 7 var. TOTAL SALMONIDS
 
 
 #2. Do some data wrangling ####
@@ -31,15 +30,9 @@ fish <- fish.dat %>% #Start formatting columns into r "tidy" structure.
 
 #3 pass sampling
 fish.3p <- fish %>% 
-  filter(P4 == 0) %>% #remove 4 pass samples, 21 obs
+  filter(P4 == 0) %>% #remove 4 pass samples, 3 obs
   select(!P4) #remove pass 4 column. 
   
-#4 pass sampling
-fish.4p <- fish %>% 
-  filter(P4 > 0) #remove 3 pass samples, 2 obs
-
-fish.test <- fish.3p %>% 
-  filter(ID == 1)
 
 #Check the data structure
 
@@ -51,38 +44,15 @@ str(fish)
 #*3.1 number of fish captured during each pass ####
 # ct <- unlist(fish.test[5:7]) #2 SPP
 
-ct <- unlist(fish.test[4:6]) #TOTAL FISH
+fish.test <- fish %>% 
+  filter(Date == "2021-08-30")
+
+ct <- unlist(fish.test[3:5]) #TOTAL FISH
 
 #*3.2 calculates number of passes ####
 k <- length(ct) 
 
 #*3.3 calculates total fish captured across all passes
-Total <- sum(ct) 
-i <- seq(1,k)
-X <- sum((k - i)*ct)
-pr1 <- removal(ct)
-summary(pr1)
-confint(pr1)
-
-#4 PASS (2 samples)
-
-fish.test.3 <- fish.4p %>% 
-  filter(ID == 3)
-
-ct <- unlist(fish.test.3[4:7])
-k <- length(ct) 
-Total <- sum(ct) 
-i <- seq(1,k)
-X <- sum((k - i)*ct)
-pr1 <- removal(ct)
-summary(pr1)
-confint(pr1)
-
-fish.test.8 <- fish.4p %>% 
-  filter(ID == 8)
-
-ct <- unlist(fish.test.8[4:7])
-k <- length(ct) 
 Total <- sum(ct) 
 i <- seq(1,k)
 X <- sum((k - i)*ct)
@@ -98,7 +68,7 @@ calculate_pop <- function(ct) {
   # Purpose: Calculate the population size and confidence intervals for an eFishing sample
   # Input:  ct - Dataframe with 3 pass depletion counts, pop - desired output pop size
   
-  ct <- unlist(fish.test[5:7])
+  ct <- unlist(fish.test[3:5])
   k <- length(ct) 
   Total <- sum(ct) 
   i <- seq(1,k)
@@ -118,7 +88,7 @@ calculate_pop(fish.test)
 #       a dataframe. 
 
 for (i in 1:nrow(fish)) {
-  ct <- unlist(fish[i,4:6])
+  ct <- unlist(fish[i,3:5])
   k <- length(ct) 
   Total <- sum(ct) 
   i <- seq(1,k)
@@ -156,14 +126,14 @@ for (i in 1:nrow(fish)) {
 #Read in population estimate file
 # fish.pop.dat <- read.csv("Data/eFishing_pop_20210408.csv", sep = ",", header = T) #23 obs of 8 var. BY SPECIES
 
-fish.pop.dat <- read.csv("Data/eFishing_totalpop_20210414.csv", sep = ",", header = T) #15 obs of 7 var. TOTAL SALMONIDS
+fish.pop.dat <- read.csv("Data/eFishing_totalpop_20211206.csv", sep = ",", header = T) #18 obs of 7 var. TOTAL SALMONIDS
 
 
 #Do some data wrangling
 fish.pop <- fish.pop.dat %>% 
   mutate(Date = mdy(Date)) %>% 
   mutate(Year = year(Date)) %>% #make a year column
-  mutate(Fire = ifelse(Year == 2020, T,F)) # make a column to note fire, used for color in ggplot
+  mutate(Fire = ifelse(Year > 2019, T,F)) # make a column to note fire, used for color in ggplot
 
 #Check data structure
 str(fish.pop)
@@ -248,33 +218,38 @@ fish.pop.3y <- fish.pop %>%
 
 fish.pop.3y$Site = factor(fish.pop.3y$Site,levels = c("US eFishing","BC eFishing","LS eFishing"),ordered = TRUE)
 
+fish.pop.3y_3color <- fish.pop.3y %>% 
+  mutate(Fire = ifelse(Year < 2020, 0, ifelse(Year > 2020, 2,1))) # make a column to note fire, used for color in ggplot
+
 
 #BarPlot TOTAL SALMONIDS
+#Note 3 colors: Dark blue = historical data, light blue = before winter 21 (but after the fire), gold = after winter 21
 
-ggplot(fish.pop.3y, aes(x = Year, y = Pop_Estimate, fill = Fire)) +
+ggplot(fish.pop.3y_3color, aes(x = Year, y = Pop_Estimate, fill = as.factor(Fire))) +
   geom_errorbar(aes(ymin = X95_LCI, ymax = X95_UCI, width = 0.5)) +
   geom_col() +
   facet_grid(Site ~.) +
-  geom_vline(xintercept = 2019.5, linetype = "dashed") +
+  # geom_vline(xintercept = 2019.5, linetype = "dashed") +
   scale_x_continuous(name = "Year") +
   scale_y_continuous(name = "Salmonid Abundance (# /100 m)") +
-  scale_fill_manual(values = c("#011a27", "#e6df44"), labels = c("Before", "After")) +
+  scale_fill_manual(values = c("#011a27", "#33658a", "#f6ae2d"), labels = c("Pre-CZU Wildfire", "Before", "After")) +
   theme_classic() +
   theme(legend.position = "bottom",
         legend.title = element_blank()) 
 
 
-# ggsave("Figures/eFishing_totalbar_20210414_3x5.jpg", width = 3, height = 5, units = "in", dpi = 650, device = "jpg")
+# ggsave("Figures/eFishing_totalbar_20211206_3x5.jpg", width = 3, height = 5, units = "in", dpi = 650, device = "jpg")
 
 #BarPlot TOTAL SALMONIDS - all years
+
 ggplot(fish.pop, aes(x = Year, y = Pop_Estimate, fill = Fire)) +
   geom_errorbar(aes(ymin = X95_LCI, ymax = X95_UCI, width = 0.5)) +
   geom_col() +
   facet_grid(Site ~.) +
   geom_vline(xintercept = 2019.5, linetype = "dashed") +
-  scale_x_continuous(name = "Year", breaks = seq(2013,2020,1)) +
+  scale_x_continuous(name = "Year", breaks = seq(2013,2021,1)) +
   scale_y_continuous(name = "Salmonid Abundance (# /100 m)") +
-  scale_fill_manual(values = c("#011a27", "#e6df44"), labels = c("Before", "After")) +
+  scale_fill_manual(values = c("#011a27", "#f6ae2d"), labels = c("Before", "After")) +
   theme_classic() +
   theme(legend.position = "bottom",
         legend.title = element_blank()) 
@@ -300,8 +275,8 @@ plot.UM <- ggplot(fish.pop.3y.US, aes(x = Year, y = Pop_Estimate, fill = Fire)) 
   geom_col() +
   geom_vline(xintercept = 2019.5, linetype = "dashed") +
   scale_x_continuous(name = "") +
-  scale_y_continuous(name = "Salmonid Abundance (# /100 m)", limits = c(0,300)) +
-  scale_fill_manual(values = c("#011a27", "#e6df44"), labels = c("Before", "After")) +
+  scale_y_continuous(name = "Salmonid Abundance (# /100 m)", limits = c(0,500)) +
+  scale_fill_manual(values = c("#011a27", "#f6ae2d"), labels = c("Before", "After")) +
   theme_classic() +
   theme(legend.position = "none",
         legend.title = element_blank()) +
@@ -315,8 +290,8 @@ plot.BC <- ggplot(fish.pop.3y.BC, aes(x = Year, y = Pop_Estimate, fill = Fire)) 
   geom_col() +
   geom_vline(xintercept = 2019.5, linetype = "dashed") +
   scale_x_continuous(name = "") +
-  scale_y_continuous(name = "", limits = c(0,300)) +
-  scale_fill_manual(values = c("#011a27", "#e6df44"), labels = c("Before", "After")) +
+  scale_y_continuous(name = "", limits = c(0,500)) +
+  scale_fill_manual(values = c("#011a27", "#f6ae2d"), labels = c("Before", "After")) +
   theme_classic() +
   theme(legend.position = "bottom",
         legend.title = element_blank()) +
@@ -330,8 +305,8 @@ plot.LM <- ggplot(fish.pop.3y.LS, aes(x = Year, y = Pop_Estimate, fill = Fire)) 
   geom_col() +
   geom_vline(xintercept = 2019.5, linetype = "dashed") +
   scale_x_continuous(name = "") +
-  scale_y_continuous(name = "", limits = c(0,300)) +
-  scale_fill_manual(values = c("#011a27", "#e6df44"), labels = c("Before", "After")) +
+  scale_y_continuous(name = "", limits = c(0,500)) +
+  scale_fill_manual(values = c("#011a27", "#f6ae2d"), labels = c("Before", "After")) +
   theme_classic() +
   theme(legend.position = "none",
         legend.title = element_blank()) +
@@ -340,7 +315,7 @@ plot.LM <- ggplot(fish.pop.3y.LS, aes(x = Year, y = Pop_Estimate, fill = Fire)) 
 #stich together
 plot.UM + plot.BC + plot.LM
 
-# ggsave("Figures/eFishing_totalbar_20210414_7x3.jpg", width = 7, height = 3, units = "in", dpi = 650, device = "jpg")
+# ggsave("Figures/eFishing_totalbar_20211206_7x3.jpg", width = 7, height = 3, units = "in", dpi = 650, device = "jpg")
 
 #____________________________________________________
 

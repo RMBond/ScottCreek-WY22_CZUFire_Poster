@@ -218,6 +218,7 @@ fish.pop.3y <- fish.pop %>%
 
 fish.pop.3y$Site = factor(fish.pop.3y$Site,levels = c("US eFishing","BC eFishing","LS eFishing"),ordered = TRUE)
 
+#Code to make 3 colors for historic, post fire pre wonter, and 1 year post fire
 fish.pop.3y_3color <- fish.pop.3y %>% 
   mutate(Fire = ifelse(Year < 2020, 0, ifelse(Year > 2020, 2,1))) # make a column to note fire, used for color in ggplot
 
@@ -258,25 +259,25 @@ ggplot(fish.pop, aes(x = Year, y = Pop_Estimate, fill = Fire)) +
 # Goal: need to make three seperate plots and stick together to make the above 3 panel facet plot into landscape
 # starting with fish.pop.3y
 
-fish.pop.3y.US <- fish.pop.3y %>% 
+fish.pop.3y.US <- fish.pop.3y_3color %>% 
   filter(Site == "US eFishing")
 
-fish.pop.3y.BC <- fish.pop.3y %>% 
+fish.pop.3y.BC <- fish.pop.3y_3color %>% 
   filter(Site == "BC eFishing")
 
-fish.pop.3y.LS <- fish.pop.3y %>% 
+fish.pop.3y.LS <- fish.pop.3y_3color %>% 
   filter(Site == "LS eFishing")
 
 
 #BarPlot Upper Mainstem
 
-plot.UM <- ggplot(fish.pop.3y.US, aes(x = Year, y = Pop_Estimate, fill = Fire)) +
+plot.UM <- ggplot(fish.pop.3y.US, aes(x = Year, y = Pop_Estimate, fill = as.factor(Fire))) +
   geom_errorbar(aes(ymin = X95_LCI, ymax = X95_UCI, width = 0.5)) +
   geom_col() +
-  geom_vline(xintercept = 2019.5, linetype = "dashed") +
+  # geom_vline(xintercept = 2019.5, linetype = "dashed") +
   scale_x_continuous(name = "") +
   scale_y_continuous(name = "Salmonid Abundance (# /100 m)", limits = c(0,500)) +
-  scale_fill_manual(values = c("#011a27", "#f6ae2d"), labels = c("Before", "After")) +
+  scale_fill_manual(values = c("#011a27", "#33658a", "#f6ae2d"), labels = c("Pre-CZU Wildfire", "Before", "After")) +
   theme_classic() +
   theme(legend.position = "none",
         legend.title = element_blank()) +
@@ -285,13 +286,13 @@ plot.UM <- ggplot(fish.pop.3y.US, aes(x = Year, y = Pop_Estimate, fill = Fire)) 
 
 #BarPlot Big Creek
 
-plot.BC <- ggplot(fish.pop.3y.BC, aes(x = Year, y = Pop_Estimate, fill = Fire)) +
+plot.BC <- ggplot(fish.pop.3y.BC, aes(x = Year, y = Pop_Estimate, fill = as.factor(Fire))) +
   geom_errorbar(aes(ymin = X95_LCI, ymax = X95_UCI, width = 0.5)) +
   geom_col() +
-  geom_vline(xintercept = 2019.5, linetype = "dashed") +
+  # geom_vline(xintercept = 2019.5, linetype = "dashed") +
   scale_x_continuous(name = "") +
   scale_y_continuous(name = "", limits = c(0,500)) +
-  scale_fill_manual(values = c("#011a27", "#f6ae2d"), labels = c("Before", "After")) +
+  scale_fill_manual(values = c("#011a27", "#33658a", "#f6ae2d"), labels = c("Pre-CZU Wildfire", "Before", "After")) +
   theme_classic() +
   theme(legend.position = "bottom",
         legend.title = element_blank()) +
@@ -300,13 +301,13 @@ plot.BC <- ggplot(fish.pop.3y.BC, aes(x = Year, y = Pop_Estimate, fill = Fire)) 
 
 #BarPlot Lower Mainstem
 
-plot.LM <- ggplot(fish.pop.3y.LS, aes(x = Year, y = Pop_Estimate, fill = Fire)) +
+plot.LM <- ggplot(fish.pop.3y.LS, aes(x = Year, y = Pop_Estimate, fill = as.factor(Fire))) +
   geom_errorbar(aes(ymin = X95_LCI, ymax = X95_UCI, width = 0.5)) +
   geom_col() +
-  geom_vline(xintercept = 2019.5, linetype = "dashed") +
+  # geom_vline(xintercept = 2019.5, linetype = "dashed") +
   scale_x_continuous(name = "") +
   scale_y_continuous(name = "", limits = c(0,500)) +
-  scale_fill_manual(values = c("#011a27", "#f6ae2d"), labels = c("Before", "After")) +
+  scale_fill_manual(values = c("#011a27", "#33658a", "#f6ae2d"), labels = c("Pre-CZU Wildfire", "Before", "After")) +
   theme_classic() +
   theme(legend.position = "none",
         legend.title = element_blank()) +

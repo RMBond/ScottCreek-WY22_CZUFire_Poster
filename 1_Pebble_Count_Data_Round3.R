@@ -54,52 +54,56 @@ str(pc)
 #Goal: Quickly visualize some of the transect changes between survey rounds.
 #      (Not intended for the poster). 
 
-test.bc <- pc %>% 
-  filter(Long_Station == 9)
-
-#Big Creek Plot - Subtle changes in sediment.
-bc <- ggplot(test.bc, aes(Size_class_mm, Percent_finer, color = Round)) +
-  geom_line() +
-  facet_grid(Transect ~ .) +
-  scale_x_log10(name = "Partical size [Log10(mm)]") +
-  scale_y_continuous(name = "Cumulative percent finer", limits = c(0,1), expand = c(0,.1)) +
-  # scale_color_manual(values = c("#a6611a", "#018571")) +
-  theme_classic() +
-  ggtitle("Big Creek")
-
 test.um <- pc %>% 
-  filter(Long_Station == 6)
+  filter(Long_Station == 6,
+         Transect == 2) #use if you want to look at the middle transect only
 
 #Upper Mainstem Plot - Fines have increased substantially in the upper watershed. 
 um <- ggplot(test.um, aes(Size_class_mm, Percent_finer, color = Round)) +
-  geom_line() +
-  facet_grid(Transect ~ .) +
+  geom_line(size = 1) +
+  # facet_grid(Transect ~ .) +
   scale_x_log10(name = "Partical size [Log10(mm)]") +
-  scale_y_continuous(name = "", limits = c(0,1), expand = c(0,.1)) +
-  # scale_color_manual(values = c("#a6611a", "#018571")) +
+  scale_y_continuous(name = "Cumulative percent finer", limits = c(0,1), expand = c(0,.1)) +
+  scale_color_manual(values = c("#33658a", "#f6ae2d"), labels = c("Before Winter 2021","After Winter 2021")) + #Round 1 vs 3 only
   theme_classic() +
   ggtitle("Upper Mainstem")
 
-#Little Creek Plot
-test.lc <- pc %>% 
-  filter(Long_Station == 11)
+test.bc <- pc %>% 
+  filter(Long_Station == 9,
+         Transect == 2) #use if you want to look at the middle transect only
 
-lc <- ggplot(test.um, aes(Size_class_mm, Percent_finer, color = Round)) +
-  geom_line() +
-  facet_grid(Transect ~ .) +
+#Big Creek Plot - Subtle changes in sediment.
+bc <- ggplot(test.bc, aes(Size_class_mm, Percent_finer, color = Round)) +
+  geom_line(size = 1) +
+  # facet_grid(Transect ~ .) +
   scale_x_log10(name = "Partical size [Log10(mm)]") +
   scale_y_continuous(name = "", limits = c(0,1), expand = c(0,.1)) +
-  # scale_color_manual(values = c("#a6611a", "#018571")) +
+  scale_color_manual(values = c("#33658a", "#f6ae2d"), labels = c("Before Winter 2021","After Winter 2021")) + #Round 1 vs 3 only
   theme_classic() +
-  ggtitle("Little Creek")
+  ggtitle("Big Creek")
+
+#Lower Mainstem Plot
+test.lm <- pc %>% 
+  filter(Long_Station == 1,
+         Transect == 2) #use if you want to look at the middle transect only
+
+lm <- ggplot(test.lm, aes(Size_class_mm, Percent_finer, color = Round)) +
+  geom_line(size = 1) +
+  # facet_grid(Transect ~ .) +
+  scale_x_log10(name = "Partical size [Log10(mm)]") +
+  scale_y_continuous(name = "", limits = c(0,1), expand = c(0,.1)) +
+  scale_color_manual(values = c("#33658a", "#f6ae2d"), labels = c("Before Winter 2021","After Winter 2021")) + #Round 1 vs 3 only
+  theme_classic() +
+  ggtitle("Lower Mainstem")
 
 #Put plots together using patchwork
-bc + um + lc +
+um + bc + lm +
   plot_layout(guides = 'collect') & 
-  theme(legend.position = 'bottom') 
+  theme(legend.position = 'bottom',
+        legend.title = element_blank()) 
 # plot_annotation(caption = 'If the blue line starts above the tan line, it means the surface sediment became finer after the first flush.')
 
-# ggsave("Figures/PC_20211115_5x4.jpg", width = 5, height = 4, units = "in", dpi = 650, device = "jpg")
+# ggsave("Figures/PC_20211206_7x4.jpg", width = 7, height = 4, units = "in", dpi = 650, device = "jpg")
 
 
 #4. Percent fines (<6mm) along the mainstem by station number (pc2)####

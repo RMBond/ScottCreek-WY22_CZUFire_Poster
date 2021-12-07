@@ -7,8 +7,8 @@ Scott Creek CZU Fire AGU Fall 2021 Poster (WY2022)
 -   [Workflow Steps](#workflow-steps)
 -   [Pebble Counts](#pebble-counts)
 -   [eFishing Population Estimates](#efishing-population-estimates)
--   [Turbidity, Precipitation, Flow data
-    visualization](#turbidity-precipitation-flow-data-visualization)
+-   [Turbidity, Precipitation, & Flow data
+    visualization](#turbidity-precipitation--flow-data-visualization)
 -   [Final Poster Output](#final-poster-output)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -88,12 +88,14 @@ datasets used in the poster.
     10/1/20 to 9/31/21.
 
 5.  The <span
-    style="color:purple">*Scott\_Creek\_Weir\_Hydrolab\_XXXX.csv*</span>
+    style="color:purple">*Scott\_Creek\_Weir\_Hydrolab\_20210101\_to\_20210622.csv*</span>
     datafile contains a snippbet (incomplete dataset) of the water
     quality data collected by the HYDROLAB (S/N 66279, model DS5X). The
     unit is installed directly above the weir. It collects depth, temp,
     salinity, turbidity, (and other) every half hour. Note there is some
-    column renaming done before importing the dataset into R.
+    column renaming done before importing the dataset into R. Data range
+    from 1/1/2021 to 6/22/21. <span style="color:red">*It may need some
+    QC.*</span>
 
 6.  The <span style="color:purple">*Gagedata\_XXX.csv*</span> datafile
     contains a portion of the stage(timestamp and ft) data. The unit is
@@ -356,7 +358,7 @@ layout](Figures/eFishing_totalbar_20211206_7x3.jpg) <br>
 ![Juvenile abundance and Cumulative percent finer plots at 3
 sites](Figures/fish_vs_cum_per_fine_20211206.jpg)
 
-## Turbidity, Precipitation, Flow data visualization
+## Turbidity, Precipitation, & Flow data visualization
 
 **Goal**: Visualize turbidity, precipitation, and Flow time-series for
 WY21 (one year post-wildfire).

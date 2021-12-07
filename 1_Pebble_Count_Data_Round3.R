@@ -1,6 +1,6 @@
 ###############################################
 ##
-## Script name: 3_Pebble_Count_Data_Round3.R
+## Script name: 1_Pebble_Count_Data_Round3.R
 ##
 ## Goals: 1. Visualize the sediment distributions at each site/transect. 
 ##           (Data needs to be manipulated from size class counts (summaries) 
@@ -12,7 +12,7 @@
 ##           "fines" meaning <6mm (though <8mm could also been used).
 ##
 ##        3. Compare how different surface summary statistics (i.e. Dx) changed 
-##           after the “first flush” at 1.A each site and 1.B longitudinally 
+##           after the first post-wildfire winter (WY21) at 1.A each site and 1.B longitudinally 
 ##           along the mainstem and Big Creek.
 ##
 ## Note: See https://github.com/RMBond/ScottCreek-WY22_CZUFire_Poster for project information.

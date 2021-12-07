@@ -6,7 +6,7 @@
 ##
 ##        2. Plot population estimates over time.
 ##
-## Note: See https://github.com/RMBond/ScottCreek-WY21_CZUFire_Poster for project information.
+## Note: See https://github.com/RMBond/ScottCreek-WY22_CZUFire_Poster for project information.
 ##
 ###############################################
 

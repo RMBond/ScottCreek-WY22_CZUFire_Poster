@@ -1,12 +1,14 @@
 Scott Creek CZU Fire AGU Fall 2021 Poster (WY2022)
 ================
-02 December, 2021
+07 December, 2021
 
 -   [Introduction](#introduction)
 -   [Readme File Purpose](#readme-file-purpose)
 -   [Workflow Steps](#workflow-steps)
 -   [Pebble Counts](#pebble-counts)
 -   [eFishing Population Estimates](#efishing-population-estimates)
+-   [Turbidity, Precipitation, Flow data
+    visualization](#turbidity-precipitation-flow-data-visualization)
 -   [Final Poster Output](#final-poster-output)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -60,20 +62,45 @@ datasets used in the poster.
     & Summer 2021). AC and MA entered the data. There was some sort of
     typo which hopefully is now fixed.
 
-2.  The <span style="color:purple">*Efishing\_2021XXXX.csv*</span>
-    datafile contains 3/4 pass depletion eFsihing at the Lower mainstem,
-    Upper mainstem, and Big Creek “Sue” sites. Historic data were
-    queried by JK on 5 April 2021 and WY 2021 were provided by K.
-    Kobayashi. Count of total number of individuals and pass were
-    generated using pivot tables. Note: eFishing sampling events were
-    limmited to August - November periods (Additional June/July sampling
-    events exists).
+2.  The <span
+    style="color:purple">*Efishing\_totalpop\_20211206.csv*</span>
+    datafile contains 3 pass depletion eFsihing at the Lower mainstem,
+    Upper mainstem, and Big Creek “Sue” sites provided by K. Kobayashi.
+    The FSA package was used to then generate population estimates when
+    then updated the total pop datafile below.
 
 3.  The <span
-    style="color:purple">*Efishing\_totalpop\_2021XXXX.csv*</span>
+    style="color:purple">*Efishing\_totalpop\_20211206.csv*</span>
     datafile is the FSA package output (population estimate, SD, and
     95%CI) for each site. Note the FSA code below is repeated for 3 pass
-    and 2 cases of 4 pass sampling.
+    and 2 cases of 4 pass sampling. This datafile is a compination of
+    output generated form the WY21 Poster (Historic data were queried by
+    JK on 5 April 2021 and WY 2021 data Count of total number of
+    individuals and pass were generated using pivot tables. Note:
+    eFishing sampling events were limmited to August - November periods
+    (Additional June/July sampling events exists).) and WY21 data were
+    provided by K. Kobayashi.
+
+4.  The <span style="color:purple">*Precip\_20211207.csv*</span>
+    datafile contains WY21 daily precipitation for Santa Cruz, CA from
+    the [Weather Cat
+    Website](http://www.weathercat.net/wxraindetail.php). Date range
+    10/1/20 to 9/31/21.
+
+5.  The <span
+    style="color:purple">*Scott\_Creek\_Weir\_Hydrolab\_XXXX.csv*</span>
+    datafile contains a snippbet (incomplete dataset) of the water
+    quality data collected by the HYDROLAB (S/N 66279, model DS5X). The
+    unit is installed directly above the weir. It collects depth, temp,
+    salinity, turbidity, (and other) every half hour. Note there is some
+    column renaming done before importing the dataset into R.
+
+6.  The <span style="color:purple">*Gagedata\_XXX.csv*</span> datafile
+    contains a portion of the stage(timestamp and ft) data. The unit is
+    installed near the Archibald Creek confluence with the mainstem. The
+    agge wasn’t workig very well during WY21 (data collected every 2 hrs
+    and would get clogged with fine sediment). Ryan Sercy (Standford)
+    has recreated the hydrograph from regression nearby gages.
 
 <br>
 
@@ -102,6 +129,14 @@ datasets used in the poster.
 1.  Generate population estimates and CI using FSA package.
 
 2.  Plot population estimates over time.
+
+**WQ Dataset**
+
+1.  Plot precipitation over WY21.
+
+2.  Plot turbidity over WY 21.
+
+3.  Plot hydrograph over WY21 (using R. Sercy dataset?).
 
 <br>
 
@@ -159,13 +194,13 @@ datasets used in the poster.
 **Cumulative percent finer plots for the eFishing sites**
 
 Each eFishing site plot: each panel (facet) is a transect and line color
-denotes the two survey rounds (tan is before winter, blue is after first
-flush). The starting place and slope of each line gives you an idea of
-the sediment distribution. “Shifts in the lower end of the pebble count
-cumulative frequency curves are indicative of significant increases in
-streambed fines” (Potyondy and Hardy 1994). If the blue line starts
-above the tan line, the surface sediment became finer after the first
-flush.
+denotes the two survey rounds (blue is before winter, gold is after
+first flush). The starting place and slope of each line gives you an
+idea of the sediment distribution. “Shifts in the lower end of the
+pebble count cumulative frequency curves are indicative of significant
+increases in streambed fines” (Potyondy and Hardy 1994). If the gold
+line starts above the blue line, the surface sediment became finer after
+the first flush.
 
 Potyondy and Hardy (1994) reccomend, “statistical comparison of particle
 size distributions can be done with 2 x 2 contingency tables (number of
@@ -173,14 +208,21 @@ pebbles less than 6 mm versus the number of pebbles greater than or
 equal to 6 mm) and the likelihood ratio Chi-square statistic to compare
 one frequency distribution with another (King and Potyondy, 1993).”
 
+![eFishing cumulative percent fines T2 (middle
+transect)](Figures/PC_20211206_7x4.jpg)
+
+![eFishing cumulative percent fines, all transects, all 3
+rounds](Figures/PC_20211115_5x4.jpg)
+
 <br>
 
 **Percent fines (&lt;6mm) and change in percent fines along the
-mainstem**
+mainstem** ![Percent fines along
+mainstem](Figures/PC_percent_fines_mainstem_20211203_6x6_B.jpg)
 
 <br>
 
-**Boxplots and stat tests of percent surface fines (before and i year
+**Boxplots and stat tests of percent surface fines (before and 1 year
 post fire)**
 
 <br>
@@ -306,11 +348,40 @@ calculate_dx <- function(dx, size, prcnt_finer) {
 -   fire = True for 2020 onwards, False for all years before the fire
     (used for color coding plots).
 
+![Juvenile abundance at 3 sites over
+time](Figures/eFishing_totalbar_20211206_3x5.jpg) <br> ![Juvenile
+abundance at 3 sites over time, Landscape
+layout](Figures/eFishing_totalbar_20211206_7x3.jpg) <br>
+
+![Juvenile abundance and Cumulative percent finer plots at 3
+sites](Figures/fish_vs_cum_per_fine_20211206.jpg)
+
+## Turbidity, Precipitation, Flow data visualization
+
+**Goal**: Visualize turbidity, precipitation, and Flow time-series for
+WY21 (one year post-wildfire).
+
+**Script**: 3\_WQ\_Data.R
+
+**Dataset name**: wq
+
+**Variable (column) descriptions**:
+
+-   Date = date
+-   TS = Timestamp
+-   Temp\_C = Water Temperature \[\*C\]
+-   TurbSC\_NTU = Turbidity \[NTU\]
+-   Dep100\_m = Water depth (think height of water column) \[m\]
+-   pH = pH
+-   Sal\_ppt = Salinity \[parts per thousand\]
+-   LDO\_mg\_l = Dissolved Oxygen \[mg/L\]
+
+<br>
+
 <br>
 
 ## Final Poster Output
 
-The <span style="color:purple">*Final\_Poster*</span> folder contains
-the poster presented at the [AGU Fall 2021
-Meeting](https://https://www.agu.org/Fall-Meeting) inlcuding the pptx
-file, pdf version, and jpeg file (shown below).
+The <span style="color:purple">*Final\_Poster*</span> folder contains a
+PDF of the virtial iPoster presented at the [AGU Fall 2021
+Meeting](https://agu2021fallmeeting-agu.ipostersessions.com/Default.aspx?s=E9-39-A1-2F-5D-3B-6C-37-29-15-F2-0C-57-51-E4-90).

@@ -1,6 +1,6 @@
 Scott Creek CZU Fire AGU Fall 2021 Poster (WY2022)
 ================
-07 December, 2021
+10 December, 2021
 
 -   [Introduction](#introduction)
 -   [Readme File Purpose](#readme-file-purpose)
@@ -94,15 +94,17 @@ datasets used in the poster.
     unit is installed directly above the weir. It collects depth, temp,
     salinity, turbidity, (and other) every half hour. Note there is some
     column renaming done before importing the dataset into R. Data range
-    from 1/1/2021 to 6/22/21. <span style="color:red">*It may need some
-    QC.*</span>
+    from 1/1/2021 to 6/22/21. <span style="color:red">*Dataset has been
+    lightly QC’ed and may need additional work.*</span>
 
 6.  The <span style="color:purple">*Gagedata\_XXX.csv*</span> datafile
     contains a portion of the stage(timestamp and ft) data. The unit is
     installed near the Archibald Creek confluence with the mainstem. The
     agge wasn’t workig very well during WY21 (data collected every 2 hrs
     and would get clogged with fine sediment). Ryan Sercy (Standford)
-    has recreated the hydrograph from regression nearby gages.
+    has recreated the hydrograph from regression nearby gages. <span
+    style="color:red">*We decided to not include this data in the
+    poster.*</span>
 
 <br>
 
@@ -378,7 +380,7 @@ WY21 (one year post-wildfire).
 -   Sal\_ppt = Salinity \[parts per thousand\]
 -   LDO\_mg\_l = Dissolved Oxygen \[mg/L\]
 
-<br>
+<br> ![Precip, Flow, and Turbidity plot](Figures/WQ_20211210_6x7.jpg)
 
 <br>
 

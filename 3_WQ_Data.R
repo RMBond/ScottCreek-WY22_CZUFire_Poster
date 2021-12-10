@@ -35,14 +35,22 @@ str(wq)
 #3. Make individual plots ####
 
 #Set data limits - This will help cut the time series to the dates we want to look at.
-limits = as.POSIXct(c("2020-09-30 00:00:00","2021-09-30 00:00:00"))
+limits = as.POSIXct(c("2020-09-30 00:00:00","2021-06-02 00:00:00"))
+
+#Date formatter (first initial for each month)
+dte_formatter <- function(x) { 
+  mth <- substr(format(x, "%b"),1,1) 
+  mth 
+} 
+
+
 
 #* Water Depth Plot ####
 
 depth.plot <- ggplot(wq, aes(x = TS, y = Dep100_m)) +
   geom_point() +
   scale_x_datetime(name = "",
-                   date_breaks = "1 month", date_labels = ("%b %y"), 
+                   date_breaks = "1 month", labels = dte_formatter, 
                    limits = limits, expand = c(0,0)) +
   scale_y_continuous(name = "Stage (m)", limits = c(1.5, 3.5), expand = c(0,0)) +
   theme_classic() +
@@ -54,7 +62,7 @@ depth.plot <- ggplot(wq, aes(x = TS, y = Dep100_m)) +
 turb.plot <- ggplot(wq, aes(x = TS, y = TurbSC_NTU)) +
   geom_point() +
   scale_x_datetime(name = "",
-                   date_breaks = "1 month", date_labels = ("%b %y"),
+                   date_breaks = "1 month", labels = dte_formatter, 
                    limits = limits, expand = c(0,0)) +
   scale_y_continuous(name = "Turbidity (NTU)", limits = c(0, 3100), expand = c(0,0)) +
   theme_classic() #+
@@ -89,8 +97,8 @@ str(precip)
 precip.daily.plot <- ggplot(precip, aes(x = Date2, y = rain_cm)) +
   geom_col(fill = "black") +
   scale_x_datetime(name = "",
-                   date_breaks = "1 month", date_labels = ("%b %d"),
-                    expand = c(0,0)) + #limits = limits,
+                   date_breaks = "1 month", labels = dte_formatter, 
+                   limits = limits, expand = c(0,0)) +
   scale_y_continuous(name = "Precipitation (cm)", limits = c(0, 8), expand = c(0,0)) +
   theme_classic() +
    theme(axis.text.x = element_blank())
@@ -98,4 +106,4 @@ precip.daily.plot <- ggplot(precip, aes(x = Date2, y = rain_cm)) +
 
 precip.daily.plot / depth.plot / turb.plot
 
-# ggsave("Figures/WQ_20211207_6x7.jpg", width = 6, height = 7, units = "in", dpi = 650, device = "jpg")
+# ggsave("Figures/WQ_20211210_6x7.jpg", width = 6, height = 7, units = "in", dpi = 650, device = "jpg")
